@@ -241,7 +241,6 @@
 
 
   socket.on("connect", function(){
-    console.log("connected");
     if(!connected){
       bootstrap();
       connected = true;
