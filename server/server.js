@@ -3,16 +3,37 @@ var http = require('http'),
 	express = require('express'),
 	sio = require('socket.io'),
   levelup = require('levelup'),
-  path = require("path");
+  path = require("path"),
+  _ = require("underscore"),
+  consolidate = require("consolidate");
 
 var app = express();
-var db = levelup(path.join(__dirname, 'db'));
+var db = levelup(path.join(__dirname, 'book-db'));
 
 var oneDay = 86400000;
 
 app.use(
   connect.static(__dirname + '/../public', { maxAge: oneDay })
 );
+
+app.engine("html", consolidate.underscore);
+app.set("view engine", "html");
+app.set("views", path.join(__dirname, "templates"));
+
+app.get("/file/:id", function(req, res){
+  var id = req.params.id;
+  db.get(id, function(err, value){
+    if(err){
+      res.send(404);
+    }else{
+      res.send(value);
+    }
+  });
+});
+
+app.get("*", function(req, res){
+  res.render("index.html");
+});
 
 var server = http.createServer(app);
 
