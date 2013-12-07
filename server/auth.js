@@ -13,14 +13,11 @@ var authCredentials = JSON.parse(authJSON);
 module.exports = function(app, db){
 
   var authenticate = function(username, password, done){
-    console.log(username, password);
-
     if(username !== authCredentials.username){
       return done(null, false, {error: "Incorrect username"});
     }
 
     bcrypt.compare(password, authCredentials.hash, function(err, res){
-      console.log("compare: ", res);
       if(res && !err){
         return done(null, {username: username});
       }else{
@@ -44,7 +41,6 @@ module.exports = function(app, db){
   app.use(passport.session());
 
   ensureAuthenticated = function(req, res, next){
-    console.log("ensureAuthenticated");
     if(req.isAuthenticated()){
       return next();
     }else{
