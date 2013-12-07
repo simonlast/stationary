@@ -5,7 +5,8 @@ var http = require('http'),
   levelup = require('levelup'),
   path = require("path"),
   _ = require("underscore"),
-  consolidate = require("consolidate");
+  consolidate = require("consolidate"),
+  cookie = require("cookie");
 
 var dbDriver = require("./db"),
     auth = require("./auth");
@@ -25,23 +26,30 @@ app.set("views", path.join(__dirname, "templates"));
 
 app.use(express.cookieParser());
 app.use(express.bodyParser());
-var secret = "stationary-super-secret";
+var cookieSecret = "stationary-super-secret";
 var oneDay = 1000 * 60 * 60 * 24;
-var cookie = {maxAge: oneDay};
+var cookieSettings = {maxAge: oneDay};
 app.use(connect.cookieSession({
-  secret: secret,
-  cookie: cookie
+  secret: cookieSecret,
+  cookie: cookieSettings
 }));
 
 auth(app, db);
 
-app.get("*", function(req, res){
-  res.render("index.html");
-});
-
 var server = http.createServer(app);
 
 var io = sio.listen(server, {log: false});
+
+io.set('authorization', function (data, callback) {
+  if(data.headers.cookie) {
+    var sessionCookie = cookie.parse(data.headers.cookie);
+    var sessionId = connect.utils.parseSignedCookie(sessionCookie['connect.sess'], cookieSecret);
+    var session = connect.utils.parseJSONCookie(sessionId);
+    if(session && session.passport && typeof session.passport.user === "string")
+      return callback(null, true);
+  }
+  return callback(null, false);
+});
 
 dbDriver(io, db);
 
