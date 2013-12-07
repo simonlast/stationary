@@ -7,8 +7,11 @@ var http = require('http'),
   _ = require("underscore"),
   consolidate = require("consolidate");
 
+var dbDriver = require("./db"),
+    auth = require("./auth");
+
 var app = express();
-var db = levelup(path.join(__dirname, 'book-db'));
+var db = levelup(path.join(__dirname, "db"));
 
 var oneDay = 86400000;
 
@@ -20,16 +23,17 @@ app.engine("html", consolidate.underscore);
 app.set("view engine", "html");
 app.set("views", path.join(__dirname, "templates"));
 
-app.get("/file/:id", function(req, res){
-  var id = req.params.id;
-  db.get(id, function(err, value){
-    if(err){
-      res.send(404);
-    }else{
-      res.send(value);
-    }
-  });
-});
+app.use(express.cookieParser());
+app.use(express.bodyParser());
+var secret = "stationary-super-secret";
+var oneDay = 1000 * 60 * 60 * 24;
+var cookie = {maxAge: oneDay};
+app.use(connect.cookieSession({
+  secret: secret,
+  cookie: cookie
+}));
+
+auth(app, db);
 
 app.get("*", function(req, res){
   res.render("index.html");
@@ -39,44 +43,6 @@ var server = http.createServer(app);
 
 var io = sio.listen(server, {log: false});
 
-io.sockets.on("connection", function(socket){
-
-  socket.on("set", function(data){
-
-    db.put(data.id, data.value);
-    socket.broadcast.emit("watch", data);
-
-  });
-
-  socket.on("get", function(data, fn){
-
-    db.get(data.id, function (err, value) {
-      if(err){
-        fn({err: "not found"});
-      }else{
-        fn({value: value});
-      }
-    });
-
-  });
-
-  socket.on("all", function(data, fn){
-    var keys = [];
-
-    db.createKeyStream()
-      .on("data", function (data) {
-        keys.push(data);
-      })
-      .on("end", function(){
-        fn(keys);
-      });
-
-  });
-
-  socket.on("remove", function(data){
-    db.del(data.id);
-  });
-
-});
+dbDriver(io, db);
 
 server.listen(process.argv[2] || 80);

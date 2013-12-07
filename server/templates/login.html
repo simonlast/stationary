@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Login</title>
+  </head>
+  <body>
+    <style>
+      *{
+        font-family: Helvetica;
+        font-weight: lighter;
+      }
+
+      h1{
+        margin: 8px;
+        margin-top: 16px;
+      }
+
+      input{
+        display: block;
+        margin: 8px;
+        padding: 8px;
+        font-size: 16px;
+        outline: none;
+      }
+    </style>
+    <form action="/login" method="post">
+      <h1>Login</h1>
+      <input type="text" name="username" autofocus placeholder="Username">
+      <input type="password" name="password" placeholder="Password">
+      <input type="submit" value="Log In">
+    </form>
+  </body>
+</html>
