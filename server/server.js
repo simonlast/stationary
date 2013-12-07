@@ -2,17 +2,15 @@ var http = require('http'),
 	connect = require('connect'),
 	express = require('express'),
 	sio = require('socket.io'),
-  levelup = require('levelup'),
   path = require("path"),
   _ = require("underscore"),
   consolidate = require("consolidate"),
   cookie = require("cookie");
 
-var dbDriver = require("./db"),
+var sockets = require("./sockets"),
     auth = require("./auth");
 
 var app = express();
-var db = levelup(path.join(__dirname, "db"));
 
 var oneDay = 86400000;
 
@@ -34,7 +32,7 @@ app.use(connect.cookieSession({
   cookie: cookieSettings
 }));
 
-auth(app, db);
+auth(app);
 
 var server = http.createServer(app);
 
@@ -51,6 +49,6 @@ io.set('authorization', function (data, callback) {
   return callback(null, false);
 });
 
-dbDriver(io, db);
+sockets(io);
 
 server.listen(process.argv[2] || 80);

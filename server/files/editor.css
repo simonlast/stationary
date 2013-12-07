@@ -1,0 +1,102 @@
+<style>
+
+  #top-bar{
+  	width: 100%;
+    height: 180px;
+    margin-top: 38px;
+  }
+
+  #search-box{
+	float: left;  
+    display: inline-block;  
+  	width: 20%;
+    margin: 1%;
+    background-color: rgba(220,220,220,.3);
+    padding: 8px; 
+  }
+
+  #all-files{
+  	float: left;
+    display: inline-block;
+    width: 70%;
+    color: rgb(80,80,80);
+    background-color: rgba(220,220,220,.3);
+    padding: 8px;
+    margin: 1%;
+  }
+
+  #all-files p{
+    margin: 4px;
+  }
+  
+  .file-list-item{
+    font-size: 16px;
+    padding: 6px;
+  }
+  
+  .button{
+    border: 1px solid rgb(200,200,200);
+    color: rgb(80,80,80);
+    font-family: Helvetica;
+    font-weight: 300;
+    outline: none;
+    background-color: rgb(240,240,240);
+  }
+  
+  .button:active{
+    background-color: rgb(200,200,200);
+  }
+    
+  #editor{
+  	z-index: 9999;
+    margin: 0px;
+    color: rgb(80,80,80);
+    font-family: Helvetica;
+    font-weight: 300;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: rgba(220,220,220,.3);
+    padding-left: 16px;
+    padding-right: 16px;
+    max-width: 80%;
+  }
+  
+  #content{
+    margin-top: 16px;
+  }
+ 
+  
+  #minimize{
+    position: absolute;
+    top: 4px;
+    right: 4px;
+  }
+  
+  #file-id{
+    border: 1px solid rgb(200,200,200);
+    outline: none;
+    padding: 6px;
+    font-size: 18px;
+    font-family: Helvetica;
+    font-weight: 300;
+    width: 90%;
+  }
+  
+  #message{
+    margin: 8px;
+    font-size: 15px;
+  }
+  
+  #code-mirror{
+    border: 1px solid rgb(200,200,200);
+    font-size: 15px;
+    height: 550px;
+  }
+  
+  .CodeMirror{
+  	height: 550px;
+  }
+
+</style>

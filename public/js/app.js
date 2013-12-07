@@ -116,7 +116,7 @@
 
 
   var bootstrap = function(){
-    db.run("main");
+    db.run("main.js");
   };
 
 

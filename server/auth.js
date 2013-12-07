@@ -4,13 +4,14 @@ var passport = require("passport"),
   fs = require("fs"),
   path = require("path");
 
+var db = require("./db");
 
 // Load credentials
 var authJSON = fs.readFileSync(path.join(__dirname, "auth.json"));
 var authCredentials = JSON.parse(authJSON);
 
 
-module.exports = function(app, db){
+module.exports = function(app){
 
   var authenticate = function(username, password, done){
     if(username !== authCredentials.username){

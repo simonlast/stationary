@@ -1,0 +1,41 @@
+API:
+
+Database:
+
+
+Get keys: 
+
+	db.get(key1, key2, ... , callback(value1, value2, ...) )
+
+    
+Set a key to value: (you can only store strings)
+
+    db.set(key, value)
+    
+    
+Get all keys:
+	
+    db.all( callback( keys ) )
+
+
+Watch for changes to a key:
+
+	descriptor = db.watch(id, callback(value) )
+    
+ 
+Unwatch a key: (returns true if a watcher was removed)
+    
+    unwatched = db.unwatch(descriptor)
+    
+    
+Require code in keys:
+
+	db.require(key1, key2, ... , callback(fn1, fn2, ...) )
+
+
+Run code in keys: (Code will run in order of arguments)
+    
+	db.run(key1, key2, ... , callback(fn1, fn2, ...) )
+  
+
+When you load the page, db.run("main") is called. See "main".
