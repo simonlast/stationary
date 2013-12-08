@@ -1,3 +1,9 @@
+var types = {
+  css: "css",
+  html: "htmlmixed",
+  js: "javascript"
+};
+
 var getPath = function(){
 	var path = window.location.pathname;
     if(!path || path.length <= 1){
@@ -38,12 +44,24 @@ appendContents("stationary-editor.html");
 appendContents("codemirror.css");
 
 
-db.run("codemirror.js", "codemirror-js.js", function(){
+db.run("codemirror.js", "codemirror-javascript.js", "codemirror-css.js", "codemirror-xml.js", "codemirror-htmlmixed.js", function(){
 
   var container = $(".stationary-editor")[0];
+  var path = getPath();
+  var type = getFileType(path);
+
+  if(type !== "html"){
+    container.classList.add("fullscreen");
+  }
+
+  // Find mode
+  var mode = "htmlmixed";
+  if(types[type]){
+    mode = types[type];
+  }
 
   container.codeMirror = CodeMirror(container, {
-    mode:  "javascript",
+    mode:  mode,
     lineNumbers: true,
     smartIndent: false,
     theme: "solarized light"
@@ -51,17 +69,10 @@ db.run("codemirror.js", "codemirror-js.js", function(){
 
   // manually set height
   $(container).css({
-  	height: $(document).height() + "px"
+    height: $(document).height() + "px"
   });
 
   container.codeMirror.refresh();
-
-  var path = getPath();
-  var type = getFileType(path);
-
-  if(type !== "html"){
-  	container.classList.add("fullscreen");
-  }
 
   db.get(path, function(value){
   	if(!value){

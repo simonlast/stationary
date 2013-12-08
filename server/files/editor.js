@@ -10,12 +10,12 @@ appendContents("editor.css");
 
 db.run("file-list.js");
 
-db.run("codemirror.js", "codemirror-js.js", function(){
+db.run("codemirror.js", "codemirror-javascript.js", "codemirror-css.js", "codemirror-xml.js", "codemirror-htmlmixed.js", function(){
 
   var container = $("#code-mirror")[0];
 
   container.codeMirror = CodeMirror(container, {
-    mode:  "javascript",
+    mode:  "htmlmixed",
     lineNumbers: true,
     smartIndent: false,
     theme: "solarized light"

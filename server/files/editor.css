@@ -22,7 +22,9 @@
     color: rgb(80,80,80);
     background-color: rgba(220,220,220,.3);
     padding: 8px;
-    margin: 1%;
+    margin: 4px;
+    max-height: 140px;
+    overflow: scroll;
   }
 
   #all-files p{
