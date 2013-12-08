@@ -84,7 +84,7 @@ module.exports = function(app){
   app.get("/", function(req, res){
     var id = req.params.id;
     if(req.isAuthenticated()){
-      res.render("index.html");
+      res.render("index.html", {file: "index.html"});
     }else{
       renderFile("index.html", res);
     }
@@ -92,10 +92,8 @@ module.exports = function(app){
 
   app.get("/:id", function(req, res){
     var id = req.params.id;
-    var referer = req.header('Referer');
-    console.log("get id ", id, req.headers, "\n\n");
     if(req.isAuthenticated()){
-      res.render("index.html");
+      res.render("index.html", {file: id});
     }else{
       renderFile(id, res);
     }
