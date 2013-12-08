@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Welcome to your website!</title>
+  </head>
+  <body>
+    <style>
+      *{
+        font-family: Helvetica;
+        font-weight: lighter;
+      }
+
+      h1{
+        margin: 8px;
+        margin-top: 16px;
+      }
+
+      input{
+        display: block;
+        margin: 8px;
+        padding: 8px;
+        font-size: 16px;
+        outline: none;
+      }
+    </style>
+    <form action="/signup" method="post">
+      <h1>Welcome to your website!</h1>
+      <h2>Create your account to get started</h2>
+      <input type="text" name="username" autofocus placeholder="Username">
+      <input type="password" name="password" placeholder="Password">
+      <input type="password" name="confirmPassword" placeholder="Confirm Password">
+      <input type="submit" value="Log In">
+    </form>
+  </body>
+</html>

@@ -7,9 +7,30 @@ var passport = require("passport"),
 var db = require("./db");
 
 // Load credentials
-var authJSON = fs.readFileSync(path.join(__dirname, "auth.json"));
-var authCredentials = JSON.parse(authJSON);
+var authCredentialsPath = path.join(__dirname, "auth.json");
+var authCredentials = null;
 
+var loadCredentials = function(){
+  if(fs.existsSync(authCredentialsPath)){
+    var authJSON = fs.readFileSync(authCredentialsPath);
+    authCredentials = JSON.parse(authJSON);
+  }
+};
+
+var saveCredentials = function(username, password, callback){
+  bcrypt.hash(password, 8, function(err, hash) {
+
+    authCredentials = {
+      username: username,
+      hash: hash
+    };
+
+    var authJSON = JSON.stringify(authCredentials);
+    fs.writeFile(authCredentialsPath, authJSON, "utf8", callback);
+  });
+};
+
+loadCredentials();
 
 module.exports = function(app){
 
@@ -31,8 +52,12 @@ module.exports = function(app){
     done(null, user.username);
   };
 
-  deserializeUser = function(id, done) {
-    return done(null, {username: id});
+  deserializeUser = function(username, done) {
+    if(authCredentials && username === authCredentials.username){
+      return done(null, {username: username});
+    }else{
+      return done(null, false);
+    }
   };
 
   passport.use(new LocalStrategy(authenticate));
@@ -53,6 +78,59 @@ module.exports = function(app){
     successRedirect: "/",
     failureRedirect: "/login",
   };
+
+  validateSignup = function(form){
+    if(typeof form.username !== "string" || form.username.length < 1){
+      return false;
+    }
+
+    if(typeof form.password !== "string" || form.password.length < 6){
+      return false;
+    }
+
+    if(form.password !== form.confirmPassword){
+      return false;
+    }
+
+    return true;
+  };
+
+  app.post("/signup", function(req, res, next){
+    if(!authCredentials){
+      var form = req.body;
+      var isValid = validateSignup(form);
+
+      if(!isValid){
+        return res.redirect("/signup");
+      }
+
+      saveCredentials(form.username, form.password, function(err){
+        if(err){
+          return res.send(302);
+        }
+
+        passport.authenticate("local", authenticationSettings)(req, res, next);
+      });
+    }else{
+      next();
+    }
+  });
+
+  app.get("/signup", function(req, res, next){
+    if(!authCredentials){
+      res.render("signup.html");
+    }else{
+      next();
+    }
+  });
+
+  app.get("*", function(req, res, next){
+    if(!authCredentials){
+      res.redirect("/signup");
+    }else{
+      next();
+    }
+  });
 
   app.get("/login", function(req, res){
     res.render("login.html");

@@ -25,8 +25,8 @@ app.set("views", path.join(__dirname, "templates"));
 app.use(express.cookieParser());
 app.use(express.bodyParser());
 var cookieSecret = "stationary-super-secret";
-var oneDay = 1000 * 60 * 60 * 24;
-var cookieSettings = {maxAge: oneDay};
+var oneYear = 1000 * 60 * 60 * 24 * 365;
+var cookieSettings = {maxAge: oneYear};
 app.use(connect.cookieSession({
   secret: cookieSecret,
   cookie: cookieSettings
