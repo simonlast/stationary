@@ -33,7 +33,7 @@ var updateFile = function(codeMirror){
   if(value.length > 0 && filename.length > 0){
     db.set(filename, value);
   }
-}
+};
 
 var appendContents = function(file){
   db.get(file, function(html){
@@ -72,7 +72,7 @@ db.run("codemirror.js", "codemirror-javascript.js", "codemirror-css.js", "codemi
   $(container).css({
     height: $(document).height() + "px"
   });
-
+ 
   container.codeMirror.refresh();
 
   db.get(path, function(value){
