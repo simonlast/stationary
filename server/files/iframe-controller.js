@@ -41,14 +41,14 @@ var attachListeners = function(doc){
         	e.preventDefault();
 
             var url = target.href;
-            
+
             if(target.hostname === window.location.hostname){
                 // If not already of form /edit/:id
             	if(!pathRegex.test(target.pathname)){
                 	url = "/edit" + target.pathname;
                 }
             }
-            
+
             window.location.href = url;
         }
 
@@ -58,7 +58,7 @@ var attachListeners = function(doc){
 
 db.get("editor-frame.html", function(html){
 	var iframeContainer = $(html);
-    $(".stationary-editor-container").append(iframeContainer);
+    $(".stationary-editor-container").prepend(iframeContainer);
 
 	var iframe = iframeContainer.find(".page-frame")[0];
     var path = getPath();
