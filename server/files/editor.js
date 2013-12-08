@@ -15,7 +15,7 @@ db.run("codemirror.js", "codemirror-javascript.js", "codemirror-css.js", "codemi
   var container = $("#code-mirror")[0];
 
   container.codeMirror = CodeMirror(container, {
-    mode:  "htmlmixed",
+    mode:  "javascript",
     lineNumbers: true,
     smartIndent: false,
     theme: "solarized light"
