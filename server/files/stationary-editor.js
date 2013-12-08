@@ -25,27 +25,6 @@ getFileType = function(filename){
     }
 };
 
-getEmbedLink = function(id, type){
-    if(type === "js"){
-      return '<script type="text/javascript" src="/file/' + id + '"></script>'
-    }
-    else if(type === "css"){
-      return '<link rel="stylesheet" href="/file/' + id + '">'
-    }
-    else if(id === "index.html"){
-      return '<a href="/">Home</a>'
-    }else{
-      return '<a href="/' + id + '">Page Name</a>'
-    }
-};
-
-setupEmbedInput = function(input){
-  input.addEventListener("click", function(e){
-  	e.preventDefault();
-    input.select();
-  });
-}
-
 var updateFile = function(codeMirror){
   var value = codeMirror.getValue();
   var filename = getPath();
@@ -70,11 +49,6 @@ db.run("codemirror.js", "codemirror-javascript.js", "codemirror-css.js", "codemi
   var container = $(".stationary-editor")[0];
   var path = getPath();
   var type = getFileType(path);
-  
-  var embedLink = getEmbedLink(path, type);
-  var embed = container.querySelector(".embed");
-  embed.value = embedLink;
-  setupEmbedInput(embed);
 
   if(type !== "html"){
     container.classList.add("fullscreen");
