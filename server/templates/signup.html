@@ -5,31 +5,68 @@
   </head>
   <body>
     <style>
-      *{
+      body{
+        margin: 0;
         font-family: Helvetica;
-        font-weight: lighter;
+        font-weight: 100;
+        color: rgb(60,60,60);
       }
 
-      h1{
-        margin: 8px;
-        margin-top: 16px;
+      h1, h2{
+        font-family: Helvetica;
+        font-weight: 100;
+        text-align: center;
+      }
+
+      .container{
+        box-sizing: border-box;
+        position: absolute;
+        top: 48px;
+        left: 50%;
+        margin-left: -200px;
+        padding: 24px;
+        width: 400px;
+
+        border-radius: 4px;
+        border: 1px solid rgba(100,100,100,.5);
+        box-shadow: 0 0 12px rgba(100,100,100,.1);
       }
 
       input{
         display: block;
-        margin: 8px;
-        padding: 8px;
+        margin: auto;
+        margin: 8px auto;
+        padding: 6px;
         font-size: 16px;
+        color: rgb(60,60,60);
+        font-family: Helvetica;
+        font-weight: 100;
         outline: none;
+        border-radius: 4px;
+        border: 1px solid rgba(100,100,100,.5);
+      }
+
+      .submit-button{
+        padding: 6px 24px;
+        font-size: 16px;
+        background: none;
+      }
+
+      .submit-button:active{
+        background-color: rgba(100,100,100,.2);
       }
     </style>
-    <form action="/signup" method="post">
+
+    <div class="container">
       <h1>Welcome to your website!</h1>
       <h2>Create your account to get started</h2>
-      <input type="text" name="username" autofocus placeholder="Username">
-      <input type="password" name="password" placeholder="Password">
-      <input type="password" name="confirmPassword" placeholder="Confirm Password">
-      <input type="submit" value="Log In">
-    </form>
+
+      <form action="/signup" method="post">
+        <input type="text" name="username" autofocus placeholder="Username">
+        <input type="password" name="password" placeholder="Password">
+        <input type="password" name="confirmPassword" placeholder="Confirm Password">
+        <input class="submit-button" type="submit" value="Log In">
+      </form>
+    </div>
   </body>
 </html>
