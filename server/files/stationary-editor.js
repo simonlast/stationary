@@ -1,11 +1,13 @@
 db.require("stationary-util.js", function(util){
   util = util();
+
   var types = {
     css: "css",
     html: "htmlmixed",
     js: "javascript"
   };
 
+  var minEditorWidth = 100;
 
   var updateFile = function(codeMirror){
     var value = codeMirror.getValue();
@@ -16,6 +18,56 @@ db.require("stationary-util.js", function(util){
     }
   };
 
+  var attachResizeListener = function(container){
+    var $container = $(container);
+    var $editor = $container.find(".stationary-editor");
+    var $doc = $(document);
+    var $resizeOverlay = $container.find(".resize-overlay");
+    var startPos = null;
+
+    resizeEditor = function(startPos, currPos){
+      var pageWidth = $doc.width();
+      var newEditorWidth = pageWidth - currPos.x;
+
+      if(newEditorWidth < minEditorWidth){
+        newEditorWidth = minEditorWidth;
+      }
+
+      $editor.css({
+        width: newEditorWidth + "px"
+      });
+    };
+
+    $container.on("mousedown", ".CodeMirror-gutters", function(e){
+      $resizeOverlay.show();
+      startPos = {
+        x: e.pageX,
+        y: e.pageY
+      };
+    });
+
+    $doc.on("mousemove", function(e){
+      if(startPos){
+        var currPos = {
+          x: e.pageX,
+          y: e.pageY
+        };
+        resizeEditor(startPos, currPos);
+      }
+    });
+
+    $doc.on("mouseup", function(e){
+       if(startPos){
+        var currPos = {
+          x: e.pageX,
+          y: e.pageY
+        };
+        resizeEditor(startPos, currPos);
+        $resizeOverlay.hide();
+        startPos = null;
+      }
+    });
+  };
 
   var container = $(".stationary-editor")[0];
   var path = util.getPath();
@@ -44,6 +96,8 @@ db.require("stationary-util.js", function(util){
   });
 
   container.codeMirror.refresh();
+
+  attachResizeListener(container.parentElement);
 
   var update = function(value){
     if(!value){

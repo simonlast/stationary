@@ -61,10 +61,29 @@
           margin: 0;
           padding: 0;
     }
+
+    .resize-overlay{
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0,0,0,0);
+      display: none;
+    }
+
+    .CodeMirror-linenumber{
+      pointer-events: none;
+    }
+
+    .CodeMirror-gutters{
+      cursor: col-resize;
+    }
 </style>
 <div class="stationary-editor-container">
   <div class="frame-container">
     <iframe class="page-frame"></iframe>
   </div>
 	<div class="stationary-editor"></div>
+  <div class="resize-overlay"></div>
 </div>
