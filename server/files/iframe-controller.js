@@ -1,10 +1,12 @@
 
+var pathRegex = /\/edit\/(.*)/;
 var getPath = function(){
 	var path = window.location.pathname;
-    if(!path || path.length <= 1){
+    var match = pathRegex.exec(path);
+    if(!match || match.length < 2){
     	return "index.html";
     }else{
-    	return path.substring(1);
+    	return match[1];
     }
 };
 
@@ -38,10 +40,16 @@ var attachListeners = function(doc){
         if(target.tagName === "A"){
         	e.preventDefault();
 
-            var url = target.getAttribute("href");
-            if(url && url.length > 0){
-            	window.location.href = url;
+            var url = target.href;
+            
+            if(target.hostname === window.location.hostname){
+                // If not already of form /edit/:id
+            	if(!pathRegex.test(target.pathname)){
+                	url = "/edit" + target.pathname;
+                }
             }
+            
+            window.location.href = url;
         }
 
     });

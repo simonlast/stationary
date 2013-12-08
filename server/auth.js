@@ -75,22 +75,16 @@ module.exports = function(app){
     });
   };
 
-  app.get("/file/:id", function(req, res){
-    var id = req.params.id;
-    console.log("get file id ", id, req.headers, "\n\n");
-    renderFile(id, res);
-  });
-
   app.get("/", function(req, res){
     var id = req.params.id;
     if(req.isAuthenticated()){
-      res.render("index.html", {file: "index.html"});
+      res.redirect("/edit/index.html");
     }else{
       renderFile("index.html", res);
     }
   });
 
-  app.get("/:id", function(req, res){
+  app.get("/edit/:id", function(req, res){
     var id = req.params.id;
     if(req.isAuthenticated()){
       res.render("index.html", {file: id});
@@ -99,5 +93,11 @@ module.exports = function(app){
     }
   });
 
+  app.get("/:id", function(req, res){
+    var id = req.params.id;
+    renderFile(id, res);
+  });
+
   app.all("*", ensureAuthenticated);
+
 };

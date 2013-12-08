@@ -4,17 +4,18 @@ var types = {
   js: "javascript"
 };
 
+var pathRegex = /\/edit\/(.*)/;
 var getPath = function(){
 	var path = window.location.pathname;
-    if(!path || path.length <= 1){
+    var match = pathRegex.exec(path);
+    if(!match || match.length < 2){
     	return "index.html";
     }else{
-    	return path.substring(1);
+    	return match[1];
     }
 };
 
 var fileTypeRegex = /.*\.([A-Za-z]+)/;
-
 getFileType = function(filename){
 	var matches = fileTypeRegex.exec(filename);
 
