@@ -85,7 +85,7 @@ module.exports = function(app){
     if(req.isAuthenticated()){
       res.render("index.html");
     }else{
-      renderFile("home.html", res);
+      renderFile("index.html", res);
     }
   });
 

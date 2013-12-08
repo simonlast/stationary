@@ -7,7 +7,7 @@ var types = {
 var getPath = function(){
 	var path = window.location.pathname;
     if(!path || path.length <= 1){
-    	return "home.html";
+    	return "index.html";
     }else{
     	return path.substring(1);
     }
