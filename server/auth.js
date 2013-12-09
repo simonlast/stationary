@@ -143,7 +143,19 @@ module.exports = function(app){
 
   app.post("/login", passport.authenticate("local", authenticationSettings));
 
+  var fileTypeRegex = /.*\.([A-Za-z]+)/;
+  var getFileType = function(filename){
+    var matches = fileTypeRegex.exec(filename);
+    if(matches && matches.length == 2){
+      return matches[1];
+    }else{
+      return "html";
+    }
+  };
+
   var renderFile = function(id, res){
+    var type = getFileType(id);
+    res.setHeader("Content-Type", "text/" + type);
     db.get(id, function(err, value){
       if(err){
         res.send(404);
