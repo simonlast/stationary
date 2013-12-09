@@ -167,7 +167,7 @@ module.exports = function(app){
     if(req.isAuthenticated()){
       res.render("index.html", {file: id});
     }else{
-      renderFile(id, res);
+      res.redirect("/" + id);
     }
   });
 
