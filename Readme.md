@@ -45,3 +45,5 @@ All of the code that runs the editor is bootstrapped, and thus editable within t
 Take a look at `/edit/main.js`. This is the starting point for the application.
 
 Documentation for how to use the bootstrapping mechanism is available in `/edit/docs.txt`
+
+[Simon Last](http://simonlast.org)
