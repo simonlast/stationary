@@ -37,3 +37,11 @@ You can make any kind of plain text file you'd like. For example:
 `/edit/about.html`
 
 Type in the code editor. When you're in an html page, you'll see a live preview on the right.
+
+## Details
+
+All of the code that runs the editor is bootstrapped, and thus editable within the editor itself.
+
+Take a look at `/edit/main.js`. This is the starting point for the application.
+
+Documentation for how to use the bootstrapping mechanism is available in `/edit/docs.txt`
