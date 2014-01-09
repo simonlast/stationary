@@ -2,7 +2,7 @@
 
 # Stationary
 
-Stationary is a simple and fun tool for creating simple static websites.
+Stationary is a simple and fun tool for creating static websites.
 
 ### Why?
 
