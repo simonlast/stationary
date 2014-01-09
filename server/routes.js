@@ -1,3 +1,7 @@
+/*
+ * routes.js manages authentication and application routing.
+ */
+
 var passport = require("passport"),
   LocalStrategy = require("passport-local").Strategy,
   bcrypt = require("bcrypt"),
@@ -6,7 +10,7 @@ var passport = require("passport"),
 
 var db = require("./db");
 
-// Load credentials
+// Load credentials from auth.json.
 var authCredentialsPath = path.join(__dirname, "auth.json");
 var authCredentials = null;
 
@@ -48,9 +52,11 @@ module.exports = function(app){
     });
   };
 
+
   serializeUser = function(user, done) {
     done(null, user.username);
   };
+
 
   deserializeUser = function(username, done) {
     if(authCredentials && username === authCredentials.username){
@@ -60,9 +66,11 @@ module.exports = function(app){
     }
   };
 
+
   passport.use(new LocalStrategy(authenticate));
   passport.serializeUser(serializeUser);
   passport.deserializeUser(deserializeUser);
+
   app.use(passport.initialize());
   app.use(passport.session());
 
@@ -74,10 +82,12 @@ module.exports = function(app){
     }
   };
 
+
   authenticationSettings = {
     successRedirect: "/",
     failureRedirect: "/login",
   };
+
 
   validateSignup = function(form){
     if(typeof form.username !== "string" || form.username.length < 1){
@@ -94,6 +104,7 @@ module.exports = function(app){
 
     return true;
   };
+
 
   app.post("/signup", function(req, res, next){
     if(!authCredentials){
@@ -116,6 +127,7 @@ module.exports = function(app){
     }
   });
 
+
   app.get("/signup", function(req, res, next){
     if(!authCredentials){
       res.render("signup.html");
@@ -123,6 +135,7 @@ module.exports = function(app){
       next();
     }
   });
+
 
   app.get("*", function(req, res, next){
     if(!authCredentials){
@@ -132,16 +145,20 @@ module.exports = function(app){
     }
   });
 
+
   app.get("/login", function(req, res){
     res.render("login.html");
   });
+
 
   app.get("/logout", function(req, res){
     req.logout();
     res.redirect('/login');
   });
 
+
   app.post("/login", passport.authenticate("local", authenticationSettings));
+
 
   var fileTypeRegex = /.*\.([A-Za-z]+)/;
   var getFileType = function(filename){
@@ -165,6 +182,7 @@ module.exports = function(app){
     });
   };
 
+
   app.get("/", function(req, res){
     var id = req.params.id;
     if(req.isAuthenticated()){
@@ -173,6 +191,7 @@ module.exports = function(app){
       renderFile("index.html", res);
     }
   });
+
 
   app.get("/edit/:id", function(req, res){
     var id = req.params.id;
@@ -183,10 +202,12 @@ module.exports = function(app){
     }
   });
 
+
   app.get("/:id", function(req, res){
     var id = req.params.id;
     renderFile(id, res);
   });
+
 
   app.all("*", ensureAuthenticated);
 

@@ -8,7 +8,7 @@ var http = require('http'),
   cookie = require("cookie");
 
 var sockets = require("./sockets"),
-    auth = require("./auth");
+    routes  = require("./routes");
 
 var app = express();
 
@@ -24,6 +24,7 @@ app.set("views", path.join(__dirname, "templates"));
 
 app.use(express.cookieParser());
 app.use(express.bodyParser());
+
 var cookieSecret = "stationary-super-secret";
 var oneYear = 1000 * 60 * 60 * 24 * 365;
 var cookieSettings = {maxAge: oneYear};
@@ -32,7 +33,7 @@ app.use(connect.cookieSession({
   cookie: cookieSettings
 }));
 
-auth(app);
+routes(app);
 
 var server = http.createServer(app);
 

@@ -2,7 +2,7 @@ body{
 	margin: 32px;
 }
 
-h1{
+h1, h2, a{
     font-family: Helvetica;
     font-weight: 100;    
 }

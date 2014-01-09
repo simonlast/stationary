@@ -1,8 +1,8 @@
 var appendContents = function(file){
   db.get(file, function(html){
-    $(document.body).append($(html))
+    $(document.body).append($(html));
   });
-}
+};
 
 appendContents("editor.html");
 appendContents("codemirror.css");

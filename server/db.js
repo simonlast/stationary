@@ -1,3 +1,7 @@
+/*
+ * db.js is the persistence layer. Currently, it uses the file system.
+ */
+
 var path = require("path"),
     fs = require("fs"),
     _ = require("underscore");
@@ -10,6 +14,7 @@ db.get = function(id, callback){
   var filename = path.join(rootPath, id);
   fs.readFile(filename, "utf8", callback);
 };
+
 
 db.set = function(id, value, callback){
   var filename = path.join(rootPath, id);
@@ -31,9 +36,11 @@ db.all = function(callback){
   });
 };
 
+
 db.remove = function(id, callback){
   var filename = path.join(rootPath, id);
   fs.unlink(filename, callback);
 };
+
 
 module.exports = db;
